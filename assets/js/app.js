@@ -35,15 +35,20 @@ var app = (function () {
                         return paypalCheckoutInstance.createPayment({
                             flow: 'checkout',
                             amount: amount,
-                            currency: 'PLN'
+                            currency: 'GBP'
                         });
                     },
 
                     onAuthorize: function (data, actions) {
                         return paypalCheckoutInstance.tokenizePayment(data)
                             .then(function (payload) {
-                                console.log('payload');
-                                console.log(payload);
+                                axios.post('/paypal/pay', {
+                                    payload: payload
+                                }).then(function () {
+                                    window.location.replace('/success');
+                                }).catch(function () {
+                                    window.location.replace('/error');
+                                });
                             });
                     },
 

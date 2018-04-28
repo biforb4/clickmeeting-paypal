@@ -19,4 +19,15 @@ class PayPalHelper
         return $this->braintreeGateway->clientToken()->generate();
     }
 
+    public function createSale($amount, $nonce)
+    {
+        $result = $this->braintreeGateway->transaction()->sale([
+            'amount'             => $amount,
+            'paymentMethodNonce' => $nonce,
+        ]);
+
+        return $result;
+
+    }
+
 }

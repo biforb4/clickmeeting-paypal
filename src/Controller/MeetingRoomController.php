@@ -71,6 +71,24 @@ class MeetingRoomController extends Controller
     }
 
     /**
+     * @Route("/error")
+     */
+    public function error()
+    {
+        echo 'eror';
+        exit();
+    }
+
+    /**
+     * @Route("/success")
+     */
+    public function success()
+    {
+        echo'success';
+        exit();
+    }
+
+    /**
      * @return FormInterface
      */
     private function buildSignupForm(): FormInterface
