@@ -26,3 +26,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Helper\ClickMeetingRestClient:
+        class: App\Helper\ClickMeetingRestClient
+        autowire: false
+        arguments:
+            $params:
+                api_key: '%env(CLICKMEETING_API_KEY)%'

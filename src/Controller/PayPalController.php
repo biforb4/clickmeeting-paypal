@@ -2,23 +2,27 @@
 
 namespace App\Controller;
 
+use App\Component\ConferenceRoomCreatorInterface;
 use App\Component\PaymentGatewayInterface;
 use App\Helper\PayPalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PayPalController extends Controller
 {
     private $paypalHelper;
     private $gateway;
+    private $conferenceRoomCreator;
 
-    public function __construct(PayPalHelper $paypalHelper, PaymentGatewayInterface $gateway)
+    public function __construct(PayPalHelper $paypalHelper, PaymentGatewayInterface $gateway, ConferenceRoomCreatorInterface $conferenceRoomCreator)
     {
         $this->paypalHelper = $paypalHelper;
         $this->gateway = $gateway;
+        $this->conferenceRoomCreator = $conferenceRoomCreator;
     }
 
     /**
@@ -39,7 +43,7 @@ class PayPalController extends Controller
      * @throws \LogicException
      * @throws \InvalidArgumentException
      */
-    public function pay(Request $request): Response
+    public function pay(Request $request, SessionInterface $session): Response
     {
         if(!$request->isMethod('POST')) {
             return new Response('Not allowed', 405);
@@ -54,7 +58,10 @@ class PayPalController extends Controller
         ]);
 
         if($this->gateway->validatePayment() === true) {
-            //todo: generate room
+            $conferenceRoomUrl = $this->conferenceRoomCreator->createRoom(getenv('CLICKMEETING_ROOM_NAME'));
+            $session->set('conferenceRoomUrl', $conferenceRoomUrl);
+            $session->remove('email');
+            $session->remove('nickname');
 
             $success = true;
             $responseCode = 200;
@@ -64,7 +71,6 @@ class PayPalController extends Controller
         }
 
         return new JsonResponse(['success' => $success], $responseCode);
-
     }
 
 }

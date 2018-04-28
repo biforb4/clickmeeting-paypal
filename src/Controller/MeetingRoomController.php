@@ -84,7 +84,7 @@ class MeetingRoomController extends Controller
      */
     public function success()
     {
-        echo'success';
+        echo $this->session->get('conferenceRoomUrl');
         exit();
     }
 
