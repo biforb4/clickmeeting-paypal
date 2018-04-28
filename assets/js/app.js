@@ -32,13 +32,11 @@ var app = (function () {
                     env: 'sandbox',
 
                     payment: function () {
-                        if (me.validateFields() === true) {
-                            return paypalCheckoutInstance.createPayment({
-                                flow: 'checkout',
-                                amount: amount,
-                                currency: 'PLN'
-                            });
-                        }
+                        return paypalCheckoutInstance.createPayment({
+                            flow: 'checkout',
+                            amount: amount,
+                            currency: 'PLN'
+                        });
                     },
 
                     onAuthorize: function (data, actions) {
@@ -63,12 +61,8 @@ var app = (function () {
         });
     };
 
-    this.validateFields = function () {
-        return false
-    };
-
     this.init = function () {
-        if(me.config.paypalButton !== null) {
+        if (me.config.paypalButton !== null) {
             axios.get('/paypal/token').then(function (response) {
                 me.initPayPal(response.data.token, response.data.amount);
             })
