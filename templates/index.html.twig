@@ -3,13 +3,7 @@
 {% block body %}
     <h1>Welcome</h1>
     <p>Please enter your your nickname and e-mail address:</p>
-    <form>
-        <label for="nickname">Nickname</label>
-        <input name="nickname" type="text" id="nickname">
-
-        <label for="email">E-mail</label>
-        <input name="email" type="email" id="email">
-    </form>
-
-    <div id="paypal-button"></div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}

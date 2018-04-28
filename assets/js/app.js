@@ -4,8 +4,7 @@ var app = (function () {
     var me = this;
 
     this.config = {
-        nickname: document.getElementById('nickname'),
-        email: document.getElementById('email')
+        paypalButton: document.getElementById('paypal-button')
     };
 
     this.initPayPal = function (token, amount) {
@@ -33,11 +32,13 @@ var app = (function () {
                     env: 'sandbox',
 
                     payment: function () {
-                        return paypalCheckoutInstance.createPayment({
-                            flow: 'checkout',
-                            amount: amount,
-                            currency: 'PLN'
-                        });
+                        if (me.validateFields() === true) {
+                            return paypalCheckoutInstance.createPayment({
+                                flow: 'checkout',
+                                amount: amount,
+                                currency: 'PLN'
+                            });
+                        }
                     },
 
                     onAuthorize: function (data, actions) {
@@ -62,11 +63,16 @@ var app = (function () {
         });
     };
 
-    this.init = function () {
-        axios.get('/paypal/token').then(function(data) {
-            me.initPayPal(data.data.token, data.data.amount);
-        })
+    this.validateFields = function () {
+        return false
+    };
 
+    this.init = function () {
+        if(me.config.paypalButton !== null) {
+            axios.get('/paypal/token').then(function (response) {
+                me.initPayPal(response.data.token, response.data.amount);
+            })
+        }
     };
 
     return {
