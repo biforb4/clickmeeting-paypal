@@ -1,10 +1,10 @@
-###Minimal Requirements
+### Minimal Requirements
 * PHP 7.1.3
 * NodeJS 6.10.3
 * npm
 * composer
 
-###Install
+### Install
 1. `git clone git@github.com:biforb4/clickmeeting-paypal.git`
 2. `composer install`
 3. `npm install`
