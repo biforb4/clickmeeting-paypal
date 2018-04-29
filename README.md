@@ -8,7 +8,7 @@
 1. `git clone git@github.com:biforb4/clickmeeting-paypal.git`
 2. `composer install`
 3. `npm install`
-4. `npm build`
+4. `npm run build`
 
 ### Run
 Run the app with the built-in php server:
@@ -16,3 +16,9 @@ Run the app with the built-in php server:
 `php -S localhost:9000 -t "./public"`
 
 and browse to http://localhost:9000
+
+##### PayPal Credentials
+
+Paypal sandbox credentials:
+* login: test@tester.pl
+* pass: testtest
