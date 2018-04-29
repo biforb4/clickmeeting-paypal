@@ -28,7 +28,7 @@ class ConferenceRoomCreator implements ConferenceRoomCreatorInterface
             'name' => $roomName,
             'room_type' => 'meeting',
             'permanent_room' => 0,
-            'access_type' => 3,
+            'access_type' => 1,
             'duration' => 1
         ];
 

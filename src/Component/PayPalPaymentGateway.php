@@ -10,6 +10,7 @@ class PayPalPaymentGateway implements PaymentGatewayInterface
 {
 
     private $payPalHelper;
+    private $transactionId;
     private $paymentSuccessful = false;
 
     public function __construct(PayPalHelper $payPalHelper)
@@ -26,6 +27,7 @@ class PayPalPaymentGateway implements PaymentGatewayInterface
     {
         $result = $this->payPalHelper->createSale($data['amount'], $data['nonce']);
 
+        $this->transactionId = $result->transaction->id;
         if($result instanceof Successful) {
             $this->paymentSuccessful = true;
         }
@@ -39,5 +41,14 @@ class PayPalPaymentGateway implements PaymentGatewayInterface
     public function validatePayment(): bool
     {
         return $this->paymentSuccessful;
+    }
+
+
+    /**
+     * Refunds transaction
+     */
+    public function refund(): void
+    {
+        $this->payPalHelper->refundTransaction($this->transactionId);
     }
 }

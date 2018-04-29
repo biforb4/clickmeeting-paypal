@@ -39,6 +39,7 @@ class PayPalController extends Controller
     /**
      * @Route("/paypal/pay")
      * @param Request $request
+     * @param SessionInterface $session
      * @return Response
      * @throws \LogicException
      * @throws \InvalidArgumentException
@@ -57,7 +58,11 @@ class PayPalController extends Controller
             'nonce' => $paymentNonce
         ]);
 
-        if($this->gateway->validatePayment() === true) {
+        try {
+            if($this->gateway->validatePayment() === false) {
+                throw new \RuntimeException('Failed Payment');
+            }
+
             $conferenceRoomUrl = $this->conferenceRoomCreator->createRoom(getenv('CLICKMEETING_ROOM_NAME'));
             $session->set('conferenceRoomUrl', $conferenceRoomUrl);
             $session->remove('email');
@@ -65,7 +70,8 @@ class PayPalController extends Controller
 
             $success = true;
             $responseCode = 200;
-        } else {
+        } catch (\Exception $e) {
+            $this->gateway->refund();
             $success = false;
             $responseCode = 400;
         }

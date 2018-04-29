@@ -5,7 +5,7 @@
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.1/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/autoload.php"
 >
     <php>
         <ini name="error_reporting" value="-1" />
@@ -14,7 +14,6 @@
         <env name="APP_DEBUG" value="1" />
         <env name="APP_SECRET" value="s$cretf0rt3st" />
         <env name="SHELL_VERBOSITY" value="-1" />
-        <env name="CLICKMEETING_API_KEY" value="eu8de8914fceb6938b32214dcc0f36bf1538355b14" />
         <!-- define your env variables for the test env here -->
     </php>
 

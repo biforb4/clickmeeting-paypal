@@ -18,4 +18,9 @@ interface PaymentGatewayInterface
      * @return bool
      */
     public function validatePayment(): bool;
+
+    /**
+     * Refunds transaction
+     */
+    public function refund(): void;
 }

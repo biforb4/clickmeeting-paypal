@@ -31,7 +31,7 @@ class ConferenceRoomCreatorTest extends TestCase
 
         $url = $conferenceRoomCreator->createRoom('test');
 
-        $this->assertStringStartsWith('https://bniewinski.clickmeeting.com/test?l=', $url);
+        $this->assertRegExp('/https:\/\/([a-zA-Z0-9]+)\.clickmeeting.com\/test\?l/', $url);
 
         $activeRooms = $restClient->conferences('active');
         foreach($activeRooms as $room) {

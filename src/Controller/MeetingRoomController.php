@@ -63,6 +63,10 @@ class MeetingRoomController extends Controller
             return $this->redirectToRoute('index');
         }
 
+        if($this->session->has('conferenceRoomUrl')) {
+            $this->session->remove('conferenceRoomUrl');
+        }
+
         return $this->render('confirm.html.twig', [
             'nickname' => $nickname,
             'email'    => $email,
@@ -75,8 +79,7 @@ class MeetingRoomController extends Controller
      */
     public function error()
     {
-        echo 'eror';
-        exit();
+        return $this->render('error.html.twig');
     }
 
     /**
@@ -84,8 +87,10 @@ class MeetingRoomController extends Controller
      */
     public function success()
     {
-        echo $this->session->get('conferenceRoomUrl');
-        exit();
+        if(!$this->session->has('conferenceRoomUrl')) {
+           return $this->redirectToRoute('index');
+        }
+        return $this->render('success.html.twig', ['url' => $this->session->get('conferenceRoomUrl')]);
     }
 
     /**

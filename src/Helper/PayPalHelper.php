@@ -30,4 +30,9 @@ class PayPalHelper
 
     }
 
+    public function refundTransaction($transactionId): void
+    {
+        $this->braintreeGateway->transaction()->refund($transactionId);
+    }
+
 }
