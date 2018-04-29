@@ -4,7 +4,8 @@ var app = (function () {
     var me = this;
 
     this.config = {
-        paypalButton: document.getElementById('paypal-button')
+        paypalButton: document.getElementById('paypal-button'),
+        overlay: document.getElementById('overlay')
     };
 
     this.initPayPal = function (token, amount) {
@@ -40,6 +41,7 @@ var app = (function () {
                     },
 
                     onAuthorize: function (data, actions) {
+                        me.config.overlay.className = me.config.overlay.className.replace('d-none', '');
                         return paypalCheckoutInstance.tokenizePayment(data)
                             .then(function (payload) {
                                 axios.post('/paypal/pay', {
